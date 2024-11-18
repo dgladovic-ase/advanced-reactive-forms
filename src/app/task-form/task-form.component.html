@@ -2,11 +2,18 @@
     <div>
         <label for="title">Title:</label>
         <input id="title" formControlName="title">
+        <div class="error-message" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+            <small *ngIf="taskForm.get('title')?.hasError('required')">Title is not valid</small>
+            <small *ngIf="taskForm.get('title')?.hasError('minlength')">Title is not long enough</small>
+        </div>
     </div>
 
     <div>
         <label for="description">Description:</label>
         <textarea id="description" formControlName="description"></textarea>
+        <div class="error-message" *ngIf="taskForm.get('description')?.invalid && taskForm.get('description')?.touched">
+            <small *ngIf="taskForm.get('description')?.hasError('required')">Desc is not valid</small>
+        </div>
     </div>
 
     <button type="submit">Submit</button>
