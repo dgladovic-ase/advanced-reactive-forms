@@ -14,13 +14,17 @@ label {
   font-weight: bold;
 }
 
-input, textarea {
+input,
+textarea,
+input[type="date"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  font-size: 1em;
 }
 
 button {
@@ -43,4 +47,36 @@ button:hover {
   margin-top: -10px;
   margin-bottom: 15px;
 }
- 
+
+.success-message {
+  color: #28a745;
+  font-size: 1em;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+button.submit {
+  margin-top: 20px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+}
+
+button.add-subtask {
+  margin-bottom: 20px;
+}
+
+input[type="date"] {
+  cursor: pointer;
+}
+
+input[type="date"]:hover {
+  border-color: #007bff;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
