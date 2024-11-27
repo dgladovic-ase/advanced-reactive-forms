@@ -1,0 +1,26 @@
+<app-global-spinner *ngIf="loading" [fullscreen]="false"></app-global-spinner>
+
+<div class="task-overview" *ngIf="task">
+    <h2>Task Overview</h2>
+    <div class="task-details">
+        <h3>{{ task.title }}</h3>
+        <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Due Date:</strong> {{ task.dueDate }}</p>
+        <p><strong>Status:</strong> {{ task.status }}</p>
+
+        <div *ngIf="task.subtasks && task.subtasks.length">
+            <h4>Subtasks</h4>
+            <ul>
+                <li *ngFor="let subtask of task.subtasks">
+                    <p>{{ subtask.title }}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <button class="go-back-button" (click)="goBack()">Back to Tasks</button>
+</div>
+
+<div *ngIf="!task">
+    <p>Task not found.</p>
+    <button class="go-back-button" (click)="goBack()">Back to Tasks</button>
+</div>

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { TaskFormComponent } from './task-form/task-form.component';
+import { RouterModule } from '@angular/router';
+import { NavigationComponent } from './shared/navigation/navigation.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TaskFormComponent],
+  imports: [RouterModule, NavigationComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
