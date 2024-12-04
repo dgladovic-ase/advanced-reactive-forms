@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { forbiddenTitleValidator } from '../../validators/forbidden-title.validator';
 import { dateRangeValidator } from '../../validators/date-range.validator';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { LOGGER_SERVICES } from '../../services/logger.tokens';
 import { LoggerService } from '../../services/logger.service';
+import { CanComponentDeactivate } from '../../guards/can-deactivate.guard';
 
 @Component({
   selector: 'app-task-create',
@@ -16,8 +17,9 @@ import { LoggerService } from '../../services/logger.service';
   templateUrl: './task-create.component.html',
   styleUrl: './task-create.component.css'
 })
-export class TaskCreateComponent implements OnInit {
+export class TaskCreateComponent implements OnInit, CanComponentDeactivate {
   taskForm: FormGroup;
+  hasUnsavedChanges = false;
 
   constructor(
     private fb: FormBuilder,
@@ -58,6 +60,18 @@ export class TaskCreateComponent implements OnInit {
         dueDateControl?.disable({ emitEvent: false }); // Disable Due Date if Start Date is not valid
       }
     });
+
+    this.taskForm.valueChanges.subscribe(() => {
+      this.hasUnsavedChanges = true;
+    });
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  handleBeforeUnload(event: Event): void {
+    if (this.hasUnsavedChanges) {
+      event.preventDefault(); // Required for modern browsers
+      (event as BeforeUnloadEvent); // This triggers the browser's confirmation dialog
+    }
   }
 
   isValidDate(date: any): boolean {
@@ -100,6 +114,7 @@ export class TaskCreateComponent implements OnInit {
           console.log('New Task:', newTask);
           window.alert('Task created successfully!');
           this.taskForm.reset();
+          this.hasUnsavedChanges = false;
           this.router.navigate(['/tasks']);
         },
         error: (err) => {
@@ -114,6 +129,13 @@ export class TaskCreateComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/tasks']);
+  }
+
+  canDeactivate(): boolean {
+    if (this.hasUnsavedChanges) {
+      return confirm('You have unsaved changes. Do you really want to leave?');
+    }
+    return true;
   }
 
   private log(message: string): void {

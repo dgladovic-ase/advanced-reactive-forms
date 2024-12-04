@@ -1,6 +1,4 @@
-<app-global-spinner *ngIf="loading" [fullscreen]="false"></app-global-spinner>
-
-<div class="task-overview" *ngIf="task">
+<div class="task-overview" *ngIf="task$ | async as task">
     <h2>Task Overview</h2>
     <div class="task-details">
         <h3>{{ task.title }}</h3>
@@ -20,7 +18,7 @@
     <button class="go-back-button" (click)="goBack()">Back to Tasks</button>
 </div>
 
-<div *ngIf="!task">
+<div *ngIf="!(task$ | async)">
     <p>Task not found.</p>
     <button class="go-back-button" (click)="goBack()">Back to Tasks</button>
 </div>

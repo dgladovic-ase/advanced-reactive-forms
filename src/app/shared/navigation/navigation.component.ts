@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -15,7 +16,7 @@ export class NavigationComponent implements OnInit {
   searchControl: FormControl = new FormControl('');
   searchVisible: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     // Determine if the search bar should be visible based on the route
@@ -41,5 +42,13 @@ export class NavigationComponent implements OnInit {
       queryParams: { keyword: query || null },
       queryParamsHandling: 'merge' // This keeps the other query params while adding/updating `keyword`
     });
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

@@ -1,1 +1,71 @@
-<p>task-edit works!</p>
+<div class="task-create">
+    <button type="button" (click)="goBack()" class="back-button">
+        Back to Task List
+    </button>
+    <h2 class="title">Edit Task</h2>
+
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="title">Title:</label>
+            <input id="title" formControlName="title" />
+            <div *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched" class="error-message">
+                <small *ngIf="taskForm.get('title')?.hasError('required')">Title is required.</small>
+                <small *ngIf="taskForm.get('title')?.hasError('minlength')">Title must be at least 5 characters
+                    long.</small>
+                <small *ngIf="taskForm.get('title')?.hasError('forbiddenTitle')">Title contains forbidden words.</small>
+            </div>
+        </div>
+
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" formControlName="description"></textarea>
+            <app-validation-message [control]="taskForm.get('description')" label="Title"></app-validation-message>
+        </div>
+
+        <div>
+            <label for="startDate">Start Date:</label>
+            <input id="startDate" type="date" formControlName="startDate" />
+            <app-validation-message [control]="taskForm.get('startDate')" label="Start Date"></app-validation-message>
+        </div>
+
+        <div>
+            <label for="dueDate">Due Date:</label>
+            <input id="dueDate" type="date" formControlName="dueDate" />
+            <app-validation-message [control]="taskForm.get('dueDate')" label="Due Date"></app-validation-message>
+            <div *ngIf="taskForm.hasError('dateRangeInvalid') && taskForm.get('dueDate')?.touched"
+                class="error-message">
+                <small>Due Date must be after Start Date.</small>
+            </div>
+        </div>
+
+        <div formArrayName="subtasks">
+            <label>Subtasks:</label>
+            <div *ngFor="let subtask of subtasks.controls; let i = index">
+                <input [formControlName]="i" placeholder="Subtask name" />
+                <div *ngIf="subtask.invalid && subtask.touched" class="error-message">
+                    <small *ngIf="subtask.hasError('required')">Subtask name is required.</small>
+                </div>
+            </div>
+            <button type="button" (click)="addSubtask()" class="add-subtask" [disabled]="subtasks.length >= 3">Add
+                Subtask</button>
+        </div>
+
+        <div formGroupName="teamAssignment">
+            <label for="teamMemberName">Team Member Name:</label>
+            <input id="teamMemberName" formControlName="teamMemberName" />
+            <div *ngIf="taskForm.get('teamAssignment.teamMemberName')?.invalid && taskForm.get('teamAssignment.teamMemberName')?.touched"
+                class="error-message">
+                <small>Team Member Name is required.</small>
+            </div>
+
+            <label for="role">Role:</label>
+            <input id="role" formControlName="role" />
+            <div *ngIf="taskForm.get('teamAssignment.role')?.invalid && taskForm.get('teamAssignment.role')?.touched"
+                class="error-message">
+                <small>Role is required.</small>
+            </div>
+        </div>
+
+        <button type="submit" class="submit" [disabled]="taskForm.invalid">Update Task</button>
+    </form>
+</div>

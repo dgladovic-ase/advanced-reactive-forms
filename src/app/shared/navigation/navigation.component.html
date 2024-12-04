@@ -6,4 +6,7 @@
     <div class="navbar-search" *ngIf="searchVisible">
         <input [formControl]="searchControl" type="text" placeholder="Search..." />
     </div>
+    <div class="nav-logout" *ngIf="isLoggedIn">
+        <button class="logout-button" (click)="logout()">Logout</button>
+    </div>
 </nav>

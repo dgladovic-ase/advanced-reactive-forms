@@ -13,6 +13,7 @@ li {
     padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
+    position: relative;
 }
 
 li:hover {
@@ -75,4 +76,11 @@ li:hover {
     background-color: #1e7e34;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
+}
+
+.menu-button {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
 }

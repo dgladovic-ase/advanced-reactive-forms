@@ -2,35 +2,27 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.spinner {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Dim overlay */
+    z-index: 1000; /* Ensure spinner appears above all other elements */
+  }
+  
+  .spinner {
     width: 50px;
     height: 50px;
-    border: 8px solid #f3f3f3;
-    border-top: 8px solid #3498db;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #ffffff;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-.spinner.fullscreen {
-    width: 100px;
-    height: 100px;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
     }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
+  }
+  

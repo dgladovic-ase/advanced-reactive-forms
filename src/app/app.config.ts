@@ -6,6 +6,10 @@ import { LoggerService } from './services/logger.service';
 import { ConsoleLoggerService } from './services/console-logger.service';
 import { FileLoggerService } from './services/file-logger.service';
 import { LOGGER_SERVICES } from './services/logger.tokens';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { LoadingInterceptor } from './services/loading.interceptor';
+import { ErrorInterceptor } from './services/error.interceptor';
 
 export function loggerFactory(): LoggerService {
   const isDev = true; // Determine this dynamically based on environment
@@ -14,6 +18,13 @@ export function loggerFactory(): LoggerService {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
+    provideHttpClient(
+      withInterceptors([
+        LoadingInterceptor,
+        ErrorInterceptor
+      ])
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     {
